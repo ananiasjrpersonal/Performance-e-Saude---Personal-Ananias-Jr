@@ -2,13 +2,16 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#080808">
 <title>Protocolo Ananias Personal — Transformação Completa em 30 Dias</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
+  color-scheme: dark;
   --bg:      #080808;
   --surface: #0f0f0f;
   --card:    #131313;
@@ -25,13 +28,17 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth; -webkit-tap-highlight-color: transparent;
+  background: #080808 !important;
+}
 body {
-  background: var(--bg);
+  background: #080808 !important;
   color: var(--white);
   font-family: 'Barlow', sans-serif;
   overflow-x: hidden;
   line-height: 1.6;
+  min-height: 100vh; min-height: 100dvh;
 }
 a { text-decoration: none; color: inherit; }
 img { display: block; max-width: 100%; }
@@ -59,19 +66,24 @@ body::before {
 /* ── NAV ────────────────────────────────────────── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  padding: 0 24px; height: 64px;
+  padding: 12px 14px; min-height: 60px;
   display: flex; align-items: center; justify-content: space-between;
+  gap: 8px;
   background: rgba(8,8,8,.92);
   border-bottom: 1px solid var(--border);
   backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  overflow: hidden; /* safety net: never let nav content bleed onto the page below */
 }
 .nav-logo {
   font-family: 'Bebas Neue', cursive;
-  font-size: 20px; letter-spacing: 3px; line-height: 1;
+  font-size: 17px; letter-spacing: 1.5px; line-height: 1;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  min-width: 0;
 }
-.nav-logo span { color: var(--red); }
+.nav-logo-prefix { display: none; }
+.nav-logo-accent { color: var(--red); }
 .nav-logo small {
-  display: block;
+  display: none;
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 8px; letter-spacing: 4px; color: var(--muted);
   text-transform: uppercase; margin-top: -2px;
@@ -79,19 +91,41 @@ nav {
 .nav-cta {
   background: var(--red); color: #fff;
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 11px; font-weight: 700; letter-spacing: 4px;
-  text-transform: uppercase; padding: 10px 24px;
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; padding: 11px 14px;
   transition: background .2s;
-  white-space: nowrap;
+  white-space: nowrap; flex-shrink: 0;
+  display: flex; align-items: center;
 }
 .nav-cta:hover { background: var(--red2); }
+.nav-cta .cta-full { display: none; }
+.nav-cta .cta-short { display: inline; }
 
-.nav-right { display: flex; align-items: center; gap: 10px; }
-.nav-social { color: var(--muted); border-color: var(--border); transition: all .2s; flex-shrink: 0; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); }
+.nav-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.nav-social {
+  color: var(--muted); border: 1px solid var(--border);
+  transition: all .2s; flex-shrink: 0;
+  width: 38px; height: 38px;
+  display: flex; align-items: center; justify-content: center;
+}
 .nav-social:hover { color: var(--white); border-color: var(--red); background: rgba(232,0,42,.08); }
 .nav-social.whatsapp { color: #25D366; border-color: rgba(37,211,102,.3); }
 .nav-social.whatsapp:hover { color: #2fe077; border-color: #25D366; background: rgba(37,211,102,.1); }
-.nav-social svg { width: 17px; height: 17px; fill: currentColor; }
+.nav-social svg { width: 16px; height: 16px; fill: currentColor; }
+
+/* Desktop: full lockup, full CTA label, roomier spacing */
+@media (min-width: 641px) {
+  nav { padding: 0 24px; min-height: 64px; }
+  .nav-logo { font-size: 20px; letter-spacing: 3px; overflow: visible; }
+  .nav-logo-prefix { display: inline; }
+  .nav-logo small { display: block; }
+  .nav-right { gap: 10px; }
+  .nav-social { width: 38px; height: 38px; }
+  .nav-social svg { width: 17px; height: 17px; }
+  .nav-cta { font-size: 11px; letter-spacing: 4px; padding: 10px 24px; }
+  .nav-cta .cta-full { display: inline; }
+  .nav-cta .cta-short { display: none; }
+}
 
 /* ── HERO ────────────────────────────────────────── */
 #hero {
@@ -372,7 +406,7 @@ nav {
   grid-template-columns: 1fr 2fr;
   gap: 48px; align-items: start; margin-top: 60px;
 }
-@media (max-width: 760px) { .metodo-grid { grid-template-columns: 1fr; gap: 32px; } }
+@media (max-width: 760px) { .metodo-grid { grid-template-columns: 1fr; gap: 32px; } .metodo-sidebar { position: static; top: auto; text-align: center; } }
 
 .metodo-sidebar { position: sticky; top: 96px; }
 .metodo-big {
@@ -678,6 +712,7 @@ footer {
 /* ── FLOATING CTA ───────────────────────────────── */
 .float-cta {
   position: fixed; bottom: 24px; right: 24px; z-index: 90;
+  bottom: max(24px, calc(env(safe-area-inset-bottom) + 16px));
   background: var(--red); color: #fff;
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 11px; font-weight: 700; letter-spacing: 3px;
@@ -705,21 +740,33 @@ footer {
   .proof-divider { display: none; }
   .float-cta { left: 24px; right: 24px; text-align: center; }
 }
+
+/* Tighter vertical rhythm + larger tap targets on mobile */
+@media (max-width: 640px) {
+  .container { padding: 0 20px; }
+  #hero { padding: 88px 0 52px; }
+  #pilares, #quem, #metodo, #inclui, #plataforma, #resultados { padding: 64px 0; }
+  #depoimentos { padding: 56px 0 72px; }
+  #cta { padding: 80px 0; }
+  .section-hdr { margin-bottom: 40px; }
+  .footer-social-link { padding: 12px 18px; }
+}
+
 </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">Protocolo <span>Ananias Personal</span><small>Personal Trainer · Sinop, MT</small></div>
+  <div class="nav-logo"><span class="nav-logo-prefix">Protocolo </span><span class="nav-logo-accent">Ananias Personal</span><small>Personal Trainer · Sinop, MT</small></div>
   <div class="nav-right">
     <a href="https://instagram.com/ananiasjr_personal" target="_blank" class="nav-social" title="Instagram @ananiasjr_personal" aria-label="Instagram">
       <svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zm0 1.8c-3.15 0-3.5.01-4.73.07-2.43.11-3.42 1.13-3.53 3.53-.06 1.23-.07 1.58-.07 4.73s.01 3.5.07 4.73c.11 2.4 1.1 3.42 3.53 3.53 1.23.06 1.58.07 4.73.07s3.5-.01 4.73-.07c2.42-.11 3.42-1.12 3.53-3.53.06-1.23.07-1.58.07-4.73s-.01-3.5-.07-4.73c-.11-2.41-1.11-3.42-3.53-3.53-1.23-.06-1.58-.07-4.73-.07zm0 3.06a4.98 4.98 0 110 9.96 4.98 4.98 0 010-9.96zm0 1.8a3.18 3.18 0 100 6.36 3.18 3.18 0 000-6.36zm6.34-3.43a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0z"/></svg>
     </a>
-    <a href="https://wa.me/5566920001218" target="_blank" class="nav-social whatsapp" title="WhatsApp 66 92000-1218" aria-label="WhatsApp">
+    <a href="https://wa.me/5566920001218" target="_blank" class="nav-social whatsapp" title="Falar com Ananias no WhatsApp" aria-label="WhatsApp">
       <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.27 4.86L2 22l5.34-1.31a9.93 9.93 0 004.7 1.21h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2zm0 18.2a8.2 8.2 0 01-4.19-1.15l-.3-.18-3.18.78.81-3.1-.2-.32a8.18 8.18 0 01-1.27-4.43c0-4.55 3.7-8.25 8.27-8.25s8.27 3.7 8.27 8.25-3.71 8.4-8.21 8.4zm4.5-6.16c-.25-.12-1.47-.72-1.7-.8-.23-.09-.39-.13-.56.12-.16.25-.64.8-.79.97-.14.16-.29.18-.54.06-1.46-.66-2.42-1.18-3.38-2.68-.26-.4.26-.38.74-1.26.08-.16.04-.3-.04-.42-.08-.12-.5-1.2-.69-1.65-.18-.43-.36-.37-.5-.37-.13-.01-.28-.01-.43-.01-.15 0-.39.06-.6.3-.2.25-.78.77-.78 1.86 0 1.1.8 2.16.91 2.31.12.15 1.6 2.44 3.88 3.32 1.93.76 2.32.61 2.74.57.42-.04 1.36-.55 1.55-1.08.19-.53.19-.99.13-1.08-.05-.1-.23-.16-.49-.27z"/></svg>
     </a>
-    <a href="https://ananiasjrpersonal.github.io/Protocolo-Ananias-Personal-/" target="_blank" class="nav-cta">Quero Entrar</a>
+    <a href="https://ananiasjrpersonal.github.io/Protocolo-Ananias-Personal-/" target="_blank" class="nav-cta"><span class="cta-full">Quero Entrar</span><span class="cta-short">Entrar</span></a>
   </div>
 </nav>
 
@@ -1186,7 +1233,7 @@ footer {
       </a>
       <a href="https://wa.me/5566920001218" target="_blank" class="footer-social-link whatsapp">
         <svg viewBox="0 0 24 24"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.27 4.86L2 22l5.34-1.31a9.93 9.93 0 004.7 1.21h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2zm0 18.2a8.2 8.2 0 01-4.19-1.15l-.3-.18-3.18.78.81-3.1-.2-.32a8.18 8.18 0 01-1.27-4.43c0-4.55 3.7-8.25 8.27-8.25s8.27 3.7 8.27 8.25-3.71 8.4-8.21 8.4zm4.5-6.16c-.25-.12-1.47-.72-1.7-.8-.23-.09-.39-.13-.56.12-.16.25-.64.8-.79.97-.14.16-.29.18-.54.06-1.46-.66-2.42-1.18-3.38-2.68-.26-.4.26-.38.74-1.26.08-.16.04-.3-.04-.42-.08-.12-.5-1.2-.69-1.65-.18-.43-.36-.37-.5-.37-.13-.01-.28-.01-.43-.01-.15 0-.39.06-.6.3-.2.25-.78.77-.78 1.86 0 1.1.8 2.16.91 2.31.12.15 1.6 2.44 3.88 3.32 1.93.76 2.32.61 2.74.57.42-.04 1.36-.55 1.55-1.08.19-.53.19-.99.13-1.08-.05-.1-.23-.16-.49-.27z"/></svg>
-        66 92000-1218
+        Falar com Ananias
       </a>
     </div>
     <div class="footer-copy">© 2026 Protocolo Ananias Personal · Todos os direitos reservados</div>
